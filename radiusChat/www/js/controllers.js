@@ -25,4 +25,15 @@ angular.module('starter.controllers', [])
   $scope.settings = {
     enableFriends: true
   };
+})
+
+.controller('signUpCtrl', function($scope){
+  $scope.signUp = function(firstName,lastName,email,password){
+    var user = {
+      firstName:firstName,
+      lastName:lastName,
+      email:email,
+      password:password
+    };
+  }
 });

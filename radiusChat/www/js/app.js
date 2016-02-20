@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('ionicApp', ['ionic'])
+var app = angular.module('ionicApp', ['ionic'])
 
 // .directive("login-splash",function(){
 //   console.log('directive');
@@ -14,8 +14,22 @@ angular.module('ionicApp', ['ionic'])
 //     templateUrl : "/templates/login-splash.html"
 //   }
 // })
+app.config(function($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise('/')
+  $stateProvider.state('signUp', {
+    url :'/signUp',
+    templateUrl: 'templates/signUp.html'
+    // template : '<h1>This is inline Template</h1>'
+    // views :{
+    //   signUp:{
+    //     templateUrl: 'signUp.html',
+    //     controller: 'signUpCtrl'
+    // })
+  });
+});
 
-.controller('LoginCtrl', function($scope, $ionicPopup, $http){
+
+app.controller('LoginCtrl', function($scope, $ionicPopup, $http){
   $scope.showLogin = true;
   $scope.showSignUp = false;
   $scope.email;
@@ -33,7 +47,7 @@ angular.module('ionicApp', ['ionic'])
       email: email,
       password:password
     };
-    console.dir(user);
+    _httpPostLogin(user)
 
   }
 
@@ -44,7 +58,7 @@ angular.module('ionicApp', ['ionic'])
       email:email,
       password:password
     };
-    console.dir(user);
+
     _httpPostSignUp(user)
 
  }
@@ -52,9 +66,9 @@ angular.module('ionicApp', ['ionic'])
  function _httpPostLogin(user){
    var request = {
      method : "POST",
-     url : "52.32.132.194:3000/login",
+     url : "http://52.32.132.194:3000/login",
      headers : {
-       'content-type' : 'application/x-www-form-urlencoded'
+       'content-type' : 'application/json'
      },
      data : {
        email : user.email,
@@ -64,9 +78,11 @@ angular.module('ionicApp', ['ionic'])
 
    $http(request).then(
      function(res){
-       console.log(res.data);
+       console.log('Success');
+       console.dir(res);
      },
       function(res){
+        console.log('Error')
         console.log(res.status);
    });
  }
@@ -74,21 +90,25 @@ angular.module('ionicApp', ['ionic'])
  function _httpPostSignUp(user){
    var request = {
      method : "POST",
-     url:"52.32.132.194:3000/signup",
+     url: "http://52.32.132.194:3000/signup",
      headers : {
-       'content-type' : 'application/x-www-form-urlencoded'
+       'content-type' : 'application/json'
      },
      data : {
+       username : user.firstName,
        email : user.email,
        password : user.password,
-       firstName : user.firstName,
-       lastName : user.lastName
+       location : {
+         longitude : "test",
+         latitute : "test"
+       }
      }
    };
 
    $http(request).then(
      function(res){
-       console.log(res.data);
+       console.log('Success');
+       console.dir(res);
      },
       function(res){
         console.log('Error')
