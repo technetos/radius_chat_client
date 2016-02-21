@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('radiusChat', ['ionic','radiusChat.controllers'])
+angular.module('radiusChat', ['ionic','radiusChat.controllers', 'radiusChat.services'])
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider.state('login', {
@@ -18,6 +18,14 @@ angular.module('radiusChat', ['ionic','radiusChat.controllers'])
     url:'/signUp',
     templateUrl: 'templates/signUp.html',
     controller: 'SignUpCtrl'
+  })
+  .state('chat',{
+    url:'/chat',
+    templateUrl: 'templates/chat.html',
+    controller: 'ChatCtrl'
+  })
+  .state('error',{
+    controller: 'ErrorCtrl'
   });
   $urlRouterProvider.otherwise('/login');
 });

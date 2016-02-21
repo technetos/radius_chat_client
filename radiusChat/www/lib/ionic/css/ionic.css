@@ -763,6 +763,7 @@
 .ion-wineglass:before,
 .ion-woman:before,
 .ion-wrench:before,
+.mobile-text-area,
 .ion-xbox:before {
   display: inline-block;
   font-family: "Ionicons";
@@ -7490,7 +7491,7 @@ textarea {
 input,
 button,
 select,
-textarea {
+.mobile-text-area {
   font-family: "-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif; }
 
 .item-input {

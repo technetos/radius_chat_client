@@ -1,9 +1,8 @@
 angular.module('radiusChat.controllers', [])
 
-.controller('LoginCtrl', function($scope, $http){
+.controller('LoginCtrl', function($scope, $http, $state, UserSession){
   $scope.email;
   $scope.password;
-
 
   $scope.login = function(email,password){
     var user = {
@@ -25,77 +24,55 @@ angular.module('radiusChat.controllers', [])
         password : user.password
       }
     };
+
     $http(request).then(
       function(res){
-        console.log('Success');
-        console.dir(res);
+        if(res.status === 200){
+          UserSession.set("user",res.data);
+          UserSession.set("authenticated", true);
+          $state.go('chat');
+        }
       },
        function(res){
-         console.log('Error')
-         console.log(res.status);
+         $state.go('error');
     });
   }
 })
 
-.controller('SignUpCtrl', function($scope, $http,$window){
+.controller('SignUpCtrl', function($scope, $http, $state){
+  $scope.user = {
+    email: "",
+    password: "",
+    username: "",
+    geoLocation: {
+      longitude : "",
+      latitude : ""
+    }
+  };
 
-  $scope.email;
-  $scope.password;
-  $scope.username;
-  /*$scope.geoLocation = {
-    longitude:"test",
-    latitute:"test"
-  };*/
+  $scope.signUp = function(username,email,password){
+    $scope.user.username = username;
+    $scope.user.email = email;
+    $scope.user.password = password;
+    _getGeoLocation()
 
+    _httpPostSignUp();
+  }
 
-
-
-
-
-  $scope.signUp = function(email, password, username){
-
-    /*if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(function(position){
-        $scope.$apply(function(){
-          $scope.latitude = position.coords.latitude;
-          $scope.longitude = position.coords.longitude;
-          console.log(latitude);
-        });
-      });
-    }else{
-      console.log("boo");
-    }*/
-
-    $window.navigator.geolocation.getCurrentPosition(function(position){
-      console.log(position);
-      var latitude = position.coordinates.latitude;
-      var longitude = position.coordinates.longitude;
-      $scope.latitude = latitude;
-      $scope.longitude = longitude; 
-    });
-
-
-
-   /*function showPosition(position){
-    latitude = position.coords.latitude;
-    longitude = position.coords.longitude;
-     geoLocation = {
-          latitude: latitude,
-          longitude: longitude
-      }
-      console.log(geoLocation);
-    };*/
-    //console.log(position);
-    var user = {
-        email: email,
-        password: password,
-        username: username,
-        //goeLocation: geoLocation
-    };
-
-    _httpPostSignUp(user);
+ function _getGeoLocation() {
+     if (navigator.geolocation) {
+         navigator.geolocation.getCurrentPosition(_showPosition);
+     } else {
+         $state.go('error');
+     }
  }
- function _httpPostSignUp(user){
+
+ function _showPosition(position) {
+     $scope.user.geoLocation.latitude = position.coords.latitude;
+     $scope.user.geoLocation.longitude = position.coords.longitude;
+ }
+
+ function _httpPostSignUp(){
    var request = {
      method : "POST",
      url: "http://52.32.132.194:3000/signup",
@@ -103,12 +80,12 @@ angular.module('radiusChat.controllers', [])
        'content-type' : 'application/json'
      },
      data : {
-       username : user.firstName,
-       email : user.email,
-       password : user.password,
-       location : {
-         longitude : "test",
-         latitute : "test"
+       username : $scope.user.firstName,
+       email : $scope.user.email,
+       password : $scope.user.password,
+       geoLocation : {
+         longitude : $scope.user.geoLocation.longitude,
+         latitute : $scope.user.geoLocation.latitude
        }
      }
    };
@@ -119,8 +96,25 @@ angular.module('radiusChat.controllers', [])
        console.dir(res);
      },
       function(res){
-        console.log('Error')
-        console.log(res.status);
+        $state.go('error');
    });
   }
- });
+ })
+ .controller('ChatCtrl', function($scope, UserSession){
+   
+ })
+ .controller('ErrorCtrl', function($scope, $ionicPopup, $state){
+    var alertPopup = $ionicPopup.show({
+       title: 'You Messed Up',
+       templateUrl: 'templates/error.html',
+       buttons: [
+         {
+           text: 'Continue',
+           type: 'button-assertive',
+           onTap: function(e){
+             $state.go('login');
+           }
+         }
+       ]
+     });
+});
