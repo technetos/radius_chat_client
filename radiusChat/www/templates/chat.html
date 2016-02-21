@@ -15,10 +15,10 @@
   </ion-content>
   <ion-footer-bar class="bar bar-footer bar-positive">
     <label class="col col-95">
-      <input type="text" name="newMessage" placeholder="New Message" class="col col-95"/>
+      <input type="text" name="text" ng-model="text" placeholder="New Message" class="col col-95"/>
     </label>
       <div class="footer-btn-wrap">
-        <button class="button button-icon icon ion-android-send footer-btn" type="submit"></button>
+        <button class="button button-icon icon ion-android-send footer-btn" type="submit" ng-click="sendMessage(text)"></button>
       </div>
   </ion-footer-bar>
 </ion-view>
