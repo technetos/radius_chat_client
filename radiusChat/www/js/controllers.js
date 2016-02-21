@@ -101,13 +101,21 @@ angular.module('radiusChat.controllers', [])
    });
   }
  })
- .controller('ChatCtrl', function($scope, $state, UserSession, socket){
+ .controller('ChatCtrl', function($scope, $state, UserSession, socket, $ionicSideMenuDelegate){
    if(!UserSession.get().active){
      $state.go('login');
    }
+   
+   $scope.message = {
+     text: "",
+     sender: "",
+     geoLocation: {
+       longitude : "",
+       latitude : ""
+     }
+   };
 
    $scope.text;
-   $scope.geoLocation = {};
    $scope.buffer = [];
 
    socket.on('send:message', function (message) {
@@ -116,39 +124,56 @@ angular.module('radiusChat.controllers', [])
    });
 
    $scope.sendMessage = function (text) {
-     geoLocation = {}
-
-     function _getGeoLocation() {
-         if (navigator.geolocation) {
-             navigator.geolocation.getCurrentPosition(_showPosition);
-         } else {
-             $state.go('error');
-         }
-     }
-
-     function _showPosition(position) {
-         $scope.user.geoLocation.latitude = position.coords.latitude;
-         $scope.user.geoLocation.longitude = position.coords.longitude;
-     }
-
-     console.dir($scope.geoLocation);
+     $scope.message.text = text;
+     $scope.message.sender = UserSession.get().user.username;
+     _getGeoLocation();
 
      socket.emit('send:message', {
        message: {
-         text : text,
-         sender : UserSession.get().user.username,
+         text : $scope.message.text,
+         sender : $scope.message.sender,
          geoLocation : {
-           latitude : $scope.geoLocation.latitude,
-           longitude : $scope.geoLocation.longitude
+           latitude : $scope.message.geoLocation.latitude,
+           longitude : $scope.message.geoLocation.longitude
          }
        }
      });
      UserSession.setLocation(geoLocation);
    }
 
+   function _getGeoLocation() {
+       if (navigator.geolocation) {
+           navigator.geolocation.getCurrentPosition(_showPosition);
+       } else {
+           $state.go('error');
+       }
+   }
+
+   function _showPosition(position) {
+       $scope.message.geoLocation.latitude = position.coords.latitude;
+       $scope.message.geoLocation.longitude = position.coords.longitude;
+   }
+
    function _inRange(messageGeoLocation){
      //return (UserSession.get().radius <= (((UserSession.getLocation().longitude - messageGeoLocation.longitude)**2) + ((UserSession.getLocation().latitude - messageGeoLocation.latitute)**2)** .5)* .00001);
    }
+   $scope.rangeValue = "";
+
+
+$scope.toggleleft = function(){
+  $ionicSideMenuDelegate.toggleLeft();
+}
+
+
+$scope.logout = function(){
+  UserSession.set('active', false);
+  $state.go('login');
+}
+
+$scope.changeDistance = function(rangeValue){
+  rangeValue = rangeValue;
+  UserSession.set(rangeValue);
+}
  })
  .controller('ErrorCtrl', function($scope, $ionicPopup, $state){
     var alertPopup = $ionicPopup.show({

@@ -1,24 +1,47 @@
+<ion-side-menus>
+  <ion-side-menu-content>
 <ion-view view-title = "chat">
-  <div class="bar bar-subheader bar-dark">
-     <button class="button button-icon icon ion-navicon"></button>
-     <h1 class="title">Chat</h1>
+
+
+<div class="bar bar-subheader bar-dark">
+  <button class="button button-icon icon ion-navicon" ng-click = toggleleft()></button>
+  <h1 class="title">Chat</h1>
+</div>
+<ion-content class="content has-subheader">
+  <ion-list>
+    <ion-item ng-repeat="message in buffer" message="message" class="item item-avatar">
+      <h3>{{message.sender}}</h3>
+        <p>
+          {{message.text}}
+          {{message.geoLocation.longitude}}
+          {{message.geoLocation.latitute}}
+        </p>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer-bar class="bar bar-footer bar-positive">
+  <label class="col col-95">
+    <input type="text" ng-model="text" name="newMessage" placeholder="New Message" class="col col-95"/>
+  </label>
+  <div class="footer-btn-wrap">
+    <button class="button button-icon icon ion-android-send footer-btn" type="submit" ng-click="sendMessage(text)"></button>
   </div>
-  <ion-content class="content has-subheader">
-      <ion-list>
-        <ion-item ng-repeat="message in buffer" message="message" class="item item-avatar">
-          <h3>{{message.sender}}</h3>
-          <p>
-            {{message.text}}
-          </p>
-        </ion-item>
-      </ion-list>
-  </ion-content>
-  <ion-footer-bar class="bar bar-footer bar-positive">
-    <label class="col col-95">
-      <input type="text" name="text" ng-model="text" placeholder="New Message" class="col col-95"/>
-    </label>
-      <div class="footer-btn-wrap">
-        <button class="button button-icon icon ion-android-send footer-btn" type="submit" ng-click="sendMessage(text)"></button>
-      </div>
-  </ion-footer-bar>
+</ion-footer-bar>
+</ion-side-menu-content>
+
+<ion-side-menu side= 'left'>
+  <div class= "content has-subheader">
+    <div class = "item range">
+      <label>Distance</label>
+      <input type = "range" name = "range" min = "10" max="100000" ng-model = 'rangeValue' ng-change = 'changeDistance(rangeValue)'>
+      <label>{{rangeValue}} meters</label>
+    </div>
+    <input type = "button" class="button button-block button-positive" ng-click = 'logout()' value = 'Logout'></button>
+  </div>
+  </ion-list>
+</ion-side-menu>
+</ion-side-menus>
+
+
+
 </ion-view>
