@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="ionicApp">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title>Radius App</title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -22,10 +23,60 @@
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
   </head>
-  <body ng-app="radiusChat">
-        <div class="bar bar-header bar-calm">
+  <body ng-controller="LoginCtrl">
+    <ionic-pane>
+       <ion-content>
+         <div class="bar bar-header bar-calm">
            <h1 class="title">Radius Chat</h1>
         </div>
-        <ion-nav-view></ion-nav-view>
+        <div ng-show="showLogin">
+          <div class="bar bar-subheader bar-dark">
+            <h1 class="title">login</h1>
+         </div>
+         <div class="content has-subheader">
+            <form name = "login-form">
+              Email: <br>
+              <label class = "item item-input">
+                <input type = "email" name = "email" ng-model = "email"><br>
+              </label>
+              Password:
+              <label class="item item-input">
+                <input type = "password" name = "password" ng-model = "password">
+              </label>
+              <input type = "button" class="button button-block button-positive" value = "sign in" ng-click="login(email,password)">
+              <input type = "button" class="button button-block button-positive" value = "sign up" ng-click="switchForm()">
+            </form>
+          </div>
+        </div>
+
+        <div ng-show = "showSignUp">
+          <div class="bar bar-subheader bar-dark">
+            <h1 class="title">sign up</h1>
+          </div>
+          <div class = "content has-subheader">
+            <form name = "signUp-form">
+              First Name: <br>
+              <label class="item item-input">
+                <input type = "text" name = "firstName" ng-model = "firstName"><br>
+              </label>
+              Last Name: <br>
+              <label class="item item-input">
+                <input type = "text" name = "lastName" ng-model = "lastName"><br>
+              </label>
+              Email: <br>
+              <label class="item item-input">
+                <input type = "email" name = "email" ng-model="email">
+              </label>
+              Password: <br>
+              <label class="item item-input">
+                <input type = "password" name = "password" ng-model = "password">
+              </label>
+              <input type = "button"  class="button button-block button-positive" value = "sign in" ng-click="switchForm()">
+              <input type = "button"  class="button button-block button-positive" value = "sign up" ng-click="signUp(firstName,lastName,email,password)">
+            </form>
+          </div>
+        </div>
+      </ion-content>
+    </ionic-pane>
   </body>
 </html>
