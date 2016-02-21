@@ -101,13 +101,31 @@ angular.module('radiusChat.controllers', [])
   }
  })
 
- .controller('ChatCtrl', function($scope, UserSession,$ionicSideMenuDelegate){
+ .controller('ChatCtrl', function($scope,$state, UserSession,$ionicSideMenuDelegate){
    $scope.rangeValue = "";
-   
+
+
    $scope.toggleleft = function(){
      $ionicSideMenuDelegate.toggleLeft();
-   };
+   }
+
+
+   $scope.logout = function(){
+     UserSession.set('active', false);
+     $state.go('login');
+   }
+
+   $scope.changeDistance = function(rangeValue){
+     rangeValue = rangeValue;
+     UserSession.set(rangeValue);
+   }
+
  })
+
+  /* $scope.hello = function(rangeVl){
+     alert('hello');
+   }
+ })*/
 
  .controller('ErrorCtrl', function($scope, $ionicPopup, $state){
     var alertPopup = $ionicPopup.show({

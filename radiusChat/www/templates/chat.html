@@ -30,10 +30,10 @@
   <div class= "content has-subheader">
     <div class = "item range">
       <label>Distance</label>
-      <input type = "range" name = "range" min = "10" max="100000" ng-model = "rangeValue">
-      <label>{{rangeValue}} miles</label>
+      <input type = "range" name = "range" min = "10" max="100000" ng-model = 'rangeValue' ng-change = 'changeDistance(rangeValue)'>
+      <label>{{rangeValue}} meters</label>
     </div>
-    <a class="button button-block button-positive" href="#/logout">Logout</a>
+    <input type = "button" class="button button-block button-positive" ng-click = 'logout()' value = 'Logout'></button>
   </div>
   </ion-list>
 </ion-side-menu>
