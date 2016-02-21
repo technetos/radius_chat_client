@@ -1,0 +1,24 @@
+<ion-view view-title = "chat">
+  <div class="bar bar-subheader bar-dark">
+     <button class="button button-icon icon ion-navicon"></button>
+     <h1 class="title">Chat</h1>
+  </div>
+  <ion-content class="content has-subheader">
+      <ion-list>
+        <ion-item ng-repeat="message in buffer" message="message" class="item item-avatar">
+          <h3>{{message.sender}}</h3>
+          <p>
+            {{message.text}}
+          </p>
+        </ion-item>
+      </ion-list>
+  </ion-content>
+  <ion-footer-bar class="bar bar-footer bar-positive">
+    <label class="col col-95">
+      <input type="text" name="text" ng-model="text" placeholder="New Message" class="col col-95"/>
+    </label>
+      <div class="footer-btn-wrap">
+        <button class="button button-icon icon ion-android-send footer-btn" type="submit" ng-click="sendMessage(text)"></button>
+      </div>
+  </ion-footer-bar>
+</ion-view>

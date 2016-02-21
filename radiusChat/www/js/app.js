@@ -6,94 +6,26 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('ionicApp', ['ionic'])
+angular.module('radiusChat', ['ionic','radiusChat.controllers', 'radiusChat.services'])
 
-// .directive("login-splash",function(){
-//   console.log('directive');
-//   return {
-//     templateUrl : "/templates/login-splash.html"
-//   }
-// })
-
-.controller('LoginCtrl', function($scope, $ionicPopup, $http){
-  $scope.showLogin = true;
-  $scope.showSignUp = false;
-  $scope.email;
-  $scope.password;
-  $scope.firstName;
-  $scope.lastName;
-
-  $scope.switchForm = function(){
-    $scope.showLogin = $scope.showSignUp;
-    $scope.showSignUp = !($scope.showSignUp)
-  }
-
-  $scope.login = function(email,password){
-    var user = {
-      email: email,
-      password:password
-    };
-    console.dir(user);
-
-  }
-
-  $scope.signUp = function(firstName,lastName,email,password){
-    var user = {
-      firstName:firstName,
-      lastName:lastName,
-      email:email,
-      password:password
-    };
-    console.dir(user);
-    _httpPostSignUp(user)
-
- }
-
- function _httpPostLogin(user){
-   var request = {
-     method : "POST",
-     url : "52.32.132.194:3000/login",
-     headers : {
-       'content-type' : 'application/x-www-form-urlencoded'
-     },
-     data : {
-       email : user.email,
-       password : user.password
-     }
-   };
-
-   $http(request).then(
-     function(res){
-       console.log(res.data);
-     },
-      function(res){
-        console.log(res.status);
-   });
- }
-
- function _httpPostSignUp(user){
-   var request = {
-     method : "POST",
-     url:"52.32.132.194:3000/signup",
-     headers : {
-       'content-type' : 'application/x-www-form-urlencoded'
-     },
-     data : {
-       email : user.email,
-       password : user.password,
-       firstName : user.firstName,
-       lastName : user.lastName
-     }
-   };
-
-   $http(request).then(
-     function(res){
-       console.log(res.data);
-     },
-      function(res){
-        console.log('Error')
-        console.log(res.status);
-   });
- }
-
+.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider.state('login', {
+    url :'/login',
+    templateUrl: 'templates/login.html',
+    controller : 'LoginCtrl'
+  })
+  .state('signUp',{
+    url:'/signUp',
+    templateUrl: 'templates/signUp.html',
+    controller: 'SignUpCtrl'
+  })
+  .state('chat',{
+    url:'/chat',
+    templateUrl: 'templates/chat.html',
+    controller: 'ChatCtrl'
+  })
+  .state('error',{
+    controller: 'ErrorCtrl'
+  });
+  $urlRouterProvider.otherwise('/login');
 });
