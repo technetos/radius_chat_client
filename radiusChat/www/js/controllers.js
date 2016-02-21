@@ -81,7 +81,7 @@ angular.module('radiusChat.controllers', [])
        'content-type' : 'application/json'
      },
      data : {
-       username : $scope.user.firstName,
+       username : $scope.user.username,
        email : $scope.user.email,
        password : $scope.user.password,
        geoLocation : {
