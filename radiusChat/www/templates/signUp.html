@@ -1,3 +1,23 @@
 <ion-view view-title = "signUp">
-  <h1> This is a Referenced Template </h1>
+  <div class="bar bar-subheader bar-dark">
+    <h1 class="title">Sign Up</h1>
+ </div>
+ <div class = "content has-subheader">
+   <form name = "signUp-form">
+     Username: <br>
+     <label class="item item-input">
+       <input type = "text" name = "username" ng-model = "username"><br>
+     </label>
+     Email: <br>
+     <label class="item item-input">
+       <input type = "email" name = "email" ng-model="email">
+     </label>
+     Password: <br>
+     <label class="item item-input">
+       <input type = "password" name = "password" ng-model = "password">
+     </label>
+     <a class="button button-block button-positive" href="#/login">Login</a>
+     <input type = "button"  class="button button-block button-positive" value = "Sign Up" ng-click="signUp(username,email,password)">
+   </form>
+ </div>
 </ion-view>
