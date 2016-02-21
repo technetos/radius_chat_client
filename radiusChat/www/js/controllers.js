@@ -100,9 +100,15 @@ angular.module('radiusChat.controllers', [])
    });
   }
  })
- .controller('ChatCtrl', function($scope, UserSession){
+
+ .controller('ChatCtrl', function($scope, UserSession,$ionicSideMenuDelegate){
+   $scope.rangeValue = "";
    
+   $scope.toggleleft = function(){
+     $ionicSideMenuDelegate.toggleLeft();
+   };
  })
+
  .controller('ErrorCtrl', function($scope, $ionicPopup, $state){
     var alertPopup = $ionicPopup.show({
        title: 'You Messed Up',
