@@ -140,8 +140,8 @@ angular.module('radiusChat.controllers', [])
          text : $scope.message.text,
          sender : $scope.message.sender,
          geoLocation : {
-           latitude : $scope.message.geoLocation.latitude,
-           longitude : $scope.message.geoLocation.longitude
+           latitude : UserSession.getLocation().latitude,
+           longitude : UserSession.getLocation().longitude
          }
        }
      });
