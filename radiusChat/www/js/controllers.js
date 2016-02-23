@@ -161,7 +161,13 @@ angular.module('radiusChat.controllers', [])
    }
 
    function _inRange(messageGeoLocation){
-     var distance = (Math.sqrt(Math.pow(((UserSession.getLocation().longitude - messageGeoLocation.longitude) * 110574.61),2)+Math.pow(((UserSession.getLocation().latitude - messageGeoLocation.latitute) * 111302.62),2)));
+     var dLongitude = (UserSession.getLocation().longitude - messageGeoLocation.longitude);
+     var dLongitudeInMeters = dLongitude * 110574.61;
+
+     var dLatitude = (UserSession.getLocation().latitude - messageGeoLocation.latitute);
+     var dLatitudeInMeters = dLatitude * 111302.62;
+
+     var distance = (Math.sqrt(Math.pow((dLatitudeInMeters ),2) + Math.pow(( dLongitudeInMeters),2)));
      console.log(distance);
      return (UserSession.get().radius <= distance)
      //return (UserSession.get().radius <= ((()**2) + (()**2)** .5)* .00001);//convert from degrees to meters (0.00000904366)
