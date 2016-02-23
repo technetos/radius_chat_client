@@ -5,11 +5,14 @@ angular.module('radiusChat.controllers', [])
   $scope.password;
 
   $scope.login = function(email,password){
-    var user = {
-      email: email,
-      password:password
-    };
-    _httpPostLogin(user)
+    // var user = {
+    //   email: email,
+    //   password:password
+    // };
+    // _httpPostLogin(user)
+    UserSession.set('user',{username:email,email:email,geoLocation:{}});
+    UserSession.set('active', true)
+    $state.go('chat');
   }
 
   function _httpPostLogin(user){
@@ -105,7 +108,7 @@ angular.module('radiusChat.controllers', [])
    if(!UserSession.get().active){
      $state.go('login');
    }
-   
+
    $scope.message = {
      text: "",
      sender: "",
@@ -128,16 +131,24 @@ angular.module('radiusChat.controllers', [])
      $scope.message.sender = UserSession.get().user.username;
      _getGeoLocation();
 
-     socket.emit('send:message', {
-       message: {
-         text : $scope.message.text,
-         sender : $scope.message.sender,
-         geoLocation : {
-           latitude : $scope.message.geoLocation.latitude,
-           longitude : $scope.message.geoLocation.longitude
-         }
-       }
-     });
+    //  socket.emit('send:message', {
+    //    message: {
+    //      text : $scope.message.text,
+    //      sender : $scope.message.sender,
+    //      geoLocation : {
+    //        latitude : $scope.message.geoLocation.latitude,
+    //        longitude : $scope.message.geoLocation.longitude
+    //      }
+    //    }
+    //  });
+    $scope.buffer.push({
+      text : $scope.message.text,
+      sender : $scope.message.sender,
+      geoLocation : {
+        latitude : $scope.message.geoLocation.latitude,
+        longitude : $scope.message.geoLocation.longitude
+      }
+    });
      UserSession.setLocation(geoLocation);
    }
 
@@ -150,6 +161,7 @@ angular.module('radiusChat.controllers', [])
    }
 
    function _showPosition(position) {
+       console.log("this is a test");
        $scope.message.geoLocation.latitude = position.coords.latitude;
        $scope.message.geoLocation.longitude = position.coords.longitude;
    }
