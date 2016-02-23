@@ -164,7 +164,7 @@ angular.module('radiusChat.controllers', [])
      var dLongitude = (UserSession.getLocation().longitude - messageGeoLocation.longitude);
      var dLongitudeInMeters = dLongitude * 110574.61;
 
-     var dLatitude = (UserSession.getLocation().latitude - messageGeoLocation.latitute);
+     var dLatitude = (UserSession.getLocation().latitude - messageGeoLocation.latitude);
      var dLatitudeInMeters = dLatitude * 111302.62;
 
      var distance = (Math.sqrt(Math.pow((dLatitudeInMeters ),2) + Math.pow(( dLongitudeInMeters),2)));
