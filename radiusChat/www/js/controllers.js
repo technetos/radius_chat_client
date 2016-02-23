@@ -169,7 +169,7 @@ angular.module('radiusChat.controllers', [])
 
      var distance = (Math.sqrt(Math.pow((dLatitudeInMeters ),2) + Math.pow(( dLongitudeInMeters),2)));
      console.log(distance);
-     return (UserSession.get().radius <= distance)
+     return (UserSession.get().radius >= distance)
      //return (UserSession.get().radius <= ((()**2) + (()**2)** .5)* .00001);//convert from degrees to meters (0.00000904366)
    }
 
@@ -185,7 +185,7 @@ angular.module('radiusChat.controllers', [])
 
    $scope.changeDistance = function(rangeValue){
       rangeValue = rangeValue;
-      UserSession.set('radius', rangeValue);
+      UserSession.set('radius', parseInt(rangeValue));
    }
  })
  .controller('ErrorCtrl', function($scope, $ionicPopup, $state){

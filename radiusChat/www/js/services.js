@@ -1,6 +1,6 @@
 angular.module('radiusChat.services', [])
 .factory('UserSession', function() {
-  var currentSessions = {active:false};
+  var currentSessions = {active:false, radius:10};
   return {
     get: function(){
       return currentSessions;
