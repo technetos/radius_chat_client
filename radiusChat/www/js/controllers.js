@@ -105,10 +105,11 @@ angular.module('radiusChat.controllers', [])
   }
  })
  .controller('ChatCtrl', function($scope, $state, UserSession, socket, $ionicSideMenuDelegate){
+   //Is the user Authenticated
    if(!UserSession.get().active){
      $state.go('login');
    }
-
+   //Defines a message
    $scope.message = {
      text: "",
      sender: "",
@@ -118,9 +119,13 @@ angular.module('radiusChat.controllers', [])
      }
    };
 
+   //Initializes my variables
    $scope.text;
    $scope.buffer = [];
+    $scope.rangeValue = "";
+   _getGeoLocation();
 
+   //Main Chat functions
    socket.on('send:message', function (message) {
      console.dir(message);
      $scope.buffer.push(message);
@@ -145,47 +150,45 @@ angular.module('radiusChat.controllers', [])
       text : $scope.message.text,
       sender : $scope.message.sender,
       geoLocation : {
-        latitude : $scope.message.geoLocation.latitude,
-        longitude : $scope.message.geoLocation.longitude
+        latitude : UserSession.getLocation().latitude,
+        longitude : UserSession.getLocation().longitude
       }
     });
-     UserSession.setLocation(geoLocation);
    }
 
    function _getGeoLocation() {
        if (navigator.geolocation) {
-           navigator.geolocation.getCurrentPosition(_showPosition);
+           //navigator.geolocation.getCurrentPosition(_showPosition);
+           console.dir(navigator.geolocation)
+           navigator.geolocation.getCurrentPosition(function(position){
+             UserSession.setLocation(position.coords.longitude, position.coords.latitude);
+           });
        } else {
            $state.go('error');
        }
    }
 
-   function _showPosition(position) {
-       console.log("this is a test");
-       $scope.message.geoLocation.latitude = position.coords.latitude;
-       $scope.message.geoLocation.longitude = position.coords.longitude;
-   }
-
    function _inRange(messageGeoLocation){
-     //return (UserSession.get().radius <= (((UserSession.getLocation().longitude - messageGeoLocation.longitude)**2) + ((UserSession.getLocation().latitude - messageGeoLocation.latitute)**2)** .5)* .00001);
+     var distance = (Math.sqrt(Math.pow(((UserSession.getLocation().longitude - messageGeoLocation.longitude) * 110574.61),2)+Math.pow(((UserSession.getLocation().latitude - messageGeoLocation.latitute) * 111302.62),2)));
+     console.log(distance);
+     return (UserSession.get().radius <= distance)
+     //return (UserSession.get().radius <= ((()**2) + (()**2)** .5)* .00001);//convert from degrees to meters (0.00000904366)
    }
-   $scope.rangeValue = "";
 
+   //Side Menu Functions
+   $scope.toggleleft = function(){
+      $ionicSideMenuDelegate.toggleLeft();
+   }
 
-$scope.toggleleft = function(){
-  $ionicSideMenuDelegate.toggleLeft();
-}
+   $scope.logout = function(){
+      UserSession.set('active', false);
+      $state.go('login');
+   }
 
-
-$scope.logout = function(){
-  UserSession.set('active', false);
-  $state.go('login');
-}
-
-$scope.changeDistance = function(rangeValue){
-  rangeValue = rangeValue;
-  UserSession.set(rangeValue);
-}
+   $scope.changeDistance = function(rangeValue){
+      rangeValue = rangeValue;
+      UserSession.set('radius', rangeValue);
+   }
  })
  .controller('ErrorCtrl', function($scope, $ionicPopup, $state){
     var alertPopup = $ionicPopup.show({

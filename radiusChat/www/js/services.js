@@ -8,8 +8,11 @@ angular.module('radiusChat.services', [])
     set: function(key,value){
       currentSessions[key] = value;
     },
-    setLocation: function(geoLocation){
-      currentSessions.user.geoLocation = geoLocation;
+    setLocation: function(longitude, latitude){
+      currentSessions.user.geoLocation = {
+        longitude : longitude,
+        latitude : latitude
+      };
     },
     getLocation: function(){
       return currentSessions.user.geoLocation;
