@@ -26,6 +26,9 @@ angular.module('radiusChat', ['ionic','radiusChat.controllers', 'radiusChat.serv
   })
   .state('error',{
     controller: 'ErrorCtrl'
+  })
+  .state('success',{
+    controller: 'SuccessCtrl'
   });
   $urlRouterProvider.otherwise('/login');
 });

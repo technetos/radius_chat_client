@@ -93,8 +93,7 @@ angular.module('radiusChat.controllers', [])
 
    $http(request).then(
      function(res){
-       console.log('Success');
-       console.dir(res);
+       $state.go('success');
      },
       function(res){
         $state.go('error');
@@ -145,7 +144,6 @@ angular.module('radiusChat.controllers', [])
          }
        }
      });
-     UserSession.setLocation(geoLocation);
    }
 
    function _getGeoLocation() {
@@ -201,5 +199,19 @@ angular.module('radiusChat.controllers', [])
            }
          }
        ]
-     });
+     })
+     .controller('SuccessCtrl', function($scope, $ionicPopup, $state){
+        var alertPopup = $ionicPopup.show({
+           title: 'Success!',
+           templateUrl: 'templates/error.html',
+           buttons: [
+             {
+               text: 'Continue',
+               type: 'button-balanced',
+               onTap: function(e){
+                 $state.go('login');
+               }
+             }
+           ]
+      });
 });
