@@ -200,7 +200,8 @@ angular.module('radiusChat.controllers', [])
          }
        ]
      })
-     .controller('SuccessCtrl', function($scope, $ionicPopup, $state){
+   })
+   .controller('SuccessCtrl', function($scope, $ionicPopup, $state){
         var alertPopup = $ionicPopup.show({
            title: 'Success!',
            templateUrl: 'templates/success.html',
@@ -213,5 +214,5 @@ angular.module('radiusChat.controllers', [])
                }
              }
            ]
-      });
-});
+         })
+       });
