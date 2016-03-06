@@ -130,7 +130,7 @@ angular.module('radiusChat.controllers', [])
    });
 
    $scope.sendMessage = function (text) {
-     $scope.message.text = text;
+     //$scope.message.text = text;
      $scope.message.sender = UserSession.get().user.username;
      _getGeoLocation();
 
@@ -144,6 +144,7 @@ angular.module('radiusChat.controllers', [])
          }
        }
      });
+     $scope.message.text = "";
    }
 
    function _getGeoLocation() {

@@ -1,6 +1,6 @@
 <ion-side-menus>
   <ion-side-menu-content>
-<ion-view view-title = "chat">
+<ion-view view-title = "Chat">
 
 
   <div class="bar bar-subheader bar-dark">
@@ -20,11 +20,11 @@
     </ion-list>
   </ion-content>
   <ion-footer-bar class="bar bar-footer bar-positive">
-    <form class="col col-95" ng-submit="sendMessage(text)">
-      <input type="text" ng-model="text" name="newMessage" placeholder="New Message" class="col col-95" />
+    <form class="col col-95" ng-submit="sendMessage()">
+      <input type="text" ng-model="message.text" name="newMessage" placeholder="New Message" class="col col-95" />
     </form>
     <div class="footer-btn-wrap">
-      <button class="button button-icon icon ion-android-send footer-btn" type="submit" ng-click="sendMessage(text)"></button>
+      <button class="button button-icon icon ion-android-send footer-btn" type="submit" ng-click="sendMessage()"></button>
     </div>
   </ion-footer-bar>
 </ion-side-menu-content>
@@ -33,7 +33,7 @@
   <div class= "content has-subheader">
     <div class = "item range">
       <label>Distance</label>
-      <input type = "range" name = "range" min = "10" max="100000" ng-model = 'rangeValue' ng-change = 'changeDistance(rangeValue)'>
+      <input type = "range" name = "range" min = "10" max="1000" ng-model = 'rangeValue' ng-change = 'changeDistance(rangeValue)'>
       <label>{{rangeValue}} meters</label>
     </div>
     <input type = "button" class="button button-block button-positive" ng-click = 'logout()' value = 'Logout'></button>
